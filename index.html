@@ -173,6 +173,10 @@
             
         },1000);
 
+        setInterval(function(){
+            socket.send(JSON.stringify({"ping":"ping"}));
+               
+        },10000);
 
         let getID = function(){
             var cookie = document.cookie;
