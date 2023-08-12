@@ -1,0 +1,19 @@
+{
+  "name": "Rhyme Battle",
+  "version": "1.0.0",
+  "description": "A multiplayer board game where you have to guess a word based on a rhyme and something associated with the word logically",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "quiz"
+  ],
+  "author": "PlatipusGames",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "ws": "^8.13.0"
+  }
+}
