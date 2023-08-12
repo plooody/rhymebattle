@@ -99,7 +99,7 @@
         let statuscodes = ["Még nem lett szó megadva","Találgass", "Adj meg egy szót"]
 
         // Create WebSocket connection.
-        const socket = new WebSocket("ws://192.168.0.200:5000");
+        const socket = new WebSocket("wss://rhymebattle.onrender.com");
         let id = 0;
         let timeRemaining = 60;
         let timeRunning = false;
