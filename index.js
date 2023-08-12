@@ -103,10 +103,9 @@ let winRound = function(winnerID){
     guessword=null;
     timeRunning=false;
     broadcast({"word1":answer["word1"],"word2":answer["word2"], "time":time,"timeRunning":false})
-    whoseTurn=(whoseTurn+1)%(players.length+1);
+    whoseTurn=(whoseTurn)%(players.length)+1;
     getPlayerByID(winnerID).addPoints(5);
     sendPlayerlist();
-    console.log("whoseturn:" +whoseTurn)
 }
 
 let broadcast = function(jsonmessage){
