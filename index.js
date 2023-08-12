@@ -11,7 +11,7 @@ app.use(cookies());
 app.use(express.static(__dirname+'/static'));
 
 
-
+let port = process.env.PORT || 5000;
 let phase = "attack";
 let whoseTurn = 1;
 let target = [0,0];
@@ -133,7 +133,7 @@ app.get('/',(req, res) =>{
         res.sendFile(path.join(__dirname, './index.html'))
         
 });
-server.listen( '5000', '192.168.0.200', () => console.log( "listening on port 5000" ))
+server.listen( port, () => console.log( "listening on port 5000" ))
 
 setInterval(function(){
     if(timeRunning)time-=1;
