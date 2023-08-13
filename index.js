@@ -45,6 +45,10 @@ class player {
         this.points+=points
     }
 
+    rename(name){
+        this.name=name;
+    }
+
 }
 let players = []
 let guessword = "apple";
@@ -87,6 +91,11 @@ wss.on('connection',function connection(ws){
             }
         }
 
+        if(answer["rename"] && answer["id"]){
+            getPlayerByID(answer["id"]).rename(answer["rename"]);
+            sendPlayerlist();
+        }
+
     })
 });
 
@@ -117,19 +126,19 @@ let broadcast = function(jsonmessage){
 let sendPlayerlist = function(){
     let playerNames = []
     players.forEach(function (player){
-        playerNames.push([player.name, player.points])
+        playerNames.push([player.name, player.points, player.id])
     });
     broadcast({"playernames":playerNames})
 }
 
 app.get('/',(req, res) =>{
        
-        if(req.cookies["id"+serverId] == undefined ){
-            numOfPlayers++;
-            res.cookie("run","id"+serverId,{maxAge: 1000 * 60 * 150,})
-            res.cookie("id"+serverId,numOfPlayers,{maxAge: 1000 * 60 * 150,})
-        }
-        res.sendFile(path.join(__dirname, './index.html'))
+    if(req.cookies["id"+serverId] == undefined ){
+        numOfPlayers++;
+        res.cookie("run","id"+serverId,{maxAge: 1000 * 60 * 150,})
+        res.cookie("id"+serverId,numOfPlayers,{maxAge: 1000 * 60 * 150,})
+    }
+    res.sendFile(path.join(__dirname, './index.html'))
         
 });
 server.listen( port, () => console.log( "listening on port 5000" ))

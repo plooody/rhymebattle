@@ -69,7 +69,12 @@
             #character img{
                 max-width: 15em;
             }
-
+            #yourname{
+                background-color:black;
+                border-radius: 5px;
+                padding:0.5em;
+                margin:0.2em;
+            }
         </style>
         <title>Rhyme Battle</title>
     </head>
@@ -81,6 +86,12 @@
             <div class="words"></div>
             <div class="player-list"></div>
             <div id="timer">Time left: 60</div>
+           
+
+           
+        </div>
+        <div id="character"><img src="wizard.png" alt=""></div>
+        <div class="gamebody">
             <div class="spymaster">
                 Rímelő szó:
                 <input type="text" class="word1">
@@ -91,15 +102,20 @@
                 <button onclick="sendWords()" class="sendwords">send</button>
             </div>
         </div>
-        <div id="character"><img src="wizard.png" alt=""></div>
+        <div class="gamebody">
+            A neved:
+            <div id="yourname"></div>
+            Átnevezés:
+            <input type="text" id="rename"><button onclick="rename()" id="rename">Send</button>
+        </div>
     </body>
 
     <script>
-        
-        let statuscodes = ["Még nem lett szó megadva","Találgass", "Adj meg egy szót"]
-
+        let socketAddress = "wss://rhymebattle.onrender.com"
+        //let socketAddress = "ws://192.168.0.200:5000"
+        //wss://rhymebattle.onrender.com
         // Create WebSocket connection.
-        const socket = new WebSocket("wss://rhymebattle.onrender.com");
+        const socket = new WebSocket(socketAddress);
         let id = 0;
         let timeRemaining = 60;
         let timeRunning = false;
@@ -139,11 +155,20 @@
             socket.send(JSON.stringify({"id":id,"tipWord":tip,}));
         }
 
+        const rename = function(){
+            let rename = document.getElementById("rename").value;
+            socket.send(JSON.stringify({"rename":rename,"id":id,}));
+        }
+
         const updatePlayerNames = function(playernames){
             
             let playerBoard = document.getElementsByClassName("player-list")[0]
             playerBoard.replaceChildren();
             playernames.forEach(function(player){
+                const pid = player[2];
+                if(id==pid){
+                    document.getElementById("yourname").textContent=player[0]
+                }
                 const para = document.createElement("div");
                 const node = document.createTextNode(player[0]+" - "+player[1]);
                 para.appendChild(node);
