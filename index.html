@@ -209,7 +209,7 @@
                     clearInterval(t);
                     return;
                 }
-                socket.send('{type:"ping"}');
+                socket.send(JSON.stringify({"type":"ping"}));
             }, 55000);
         };
 
