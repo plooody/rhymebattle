@@ -203,6 +203,16 @@
                
         },10000);
 
+        socket.onopen = function () {
+            var t = setInterval(function(){
+                if (ws.readyState != 1) {
+                    clearInterval(t);
+                    return;
+                }
+                socket.send('{type:"ping"}');
+            }, 55000);
+        };
+
         let getID = function(){
             var cookie = document.cookie;
             var output = {};
