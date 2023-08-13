@@ -205,7 +205,7 @@
 
         socket.onopen = function () {
             var t = setInterval(function(){
-                if (ws.readyState != 1) {
+                if (socket.readyState != 1) {
                     clearInterval(t);
                     return;
                 }
