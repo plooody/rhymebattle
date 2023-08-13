@@ -120,23 +120,25 @@
         let timeRemaining = 60;
         let timeRunning = false;
         let timer = document.getElementById("timer");
-        // Listen for messages
-        socket.addEventListener("message", (event) => {
-            
+
+        const handlemessage = function(event){
             message = JSON.parse(event.data);
            
-            if(message["playernames"]){
-                updatePlayerNames(message["playernames"]);
-            }
-            if(message["word1"] && message["word2"]){
-                updateWords(message["word1"],message["word2"]);
-            }
-            if(message["time"] && message["timeRunning"]!=undefined){
-                timeRemaining=message["time"]
-                timeRunning=message["timeRunning"]
-                console.log(message["time"])
-            }
-        });
+           if(message["playernames"]){
+               updatePlayerNames(message["playernames"]);
+           }
+           if(message["word1"] && message["word2"]){
+               updateWords(message["word1"],message["word2"]);
+           }
+           if(message["time"] && message["timeRunning"]!=undefined){
+               timeRemaining=message["time"]
+               timeRunning=message["timeRunning"]
+               console.log(message["time"])
+           }
+        }
+
+        // Listen for messages
+        socket.addEventListener("message", handlemessage);
 
         const sendMessage = function(){
             socket.onopen = () => socket.send(JSON.stringify({"id":id,"quiz":"a",}));
@@ -199,9 +201,13 @@
         },1000);
 
         setInterval(function(){
+            if (socket.readyState != 1) {
+                socket = new WebSocket(socketAddress);
+                socket.addEventListener("message", handlemessage);
+            }
             socket.send(JSON.stringify({"ping":"ping"}));
                
-        },10000);
+        },5000);
 
         socket.onopen = function () {
             var t = setInterval(function(){
